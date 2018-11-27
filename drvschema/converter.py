@@ -44,7 +44,6 @@ def DjangoModelCharFieldKwargs(schemata, keystr):
 
     # Map of schema keys to CharField kwarg keys
     fieldmap = {
-        'required': 'required',
         'maxlength': 'max_length',
         'help': 'help_text',
         'empty': 'blank',
@@ -53,6 +52,11 @@ def DjangoModelCharFieldKwargs(schemata, keystr):
     for k, v in fieldmap.items():
         if k in schema:
             kwargs[v] = schema[k]
+
+    if 'required' in schema:
+        kwargs['blank'] = False
+        kwargs['default'] = None
+        kwargs['null'] = False
 
     return kwargs
 
