@@ -16,7 +16,7 @@ import unittest
 from drvschema import DrvSchema
 
 
-class testDjangoModels(unittest.TestCase):
+class TestDjangoModels(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -34,15 +34,13 @@ class testDjangoModels(unittest.TestCase):
                     'required': True,
                     'maxlength': 200,
                     'help': 'User first name',
-                    'empty': False,
-                    'default': None,
                 },
             }
         })
 
         kwargs = appschema.to('DjangoModelCharFieldKwargs', 'User.first_name')
-        self.assertTrue(kwargs['required'])
         self.assertTrue(kwargs['max_length'] == 200)
         self.assertTrue(kwargs['help_text'] == 'User first name')
         self.assertFalse(kwargs['blank'])
         self.assertTrue(kwargs['default'] is None)
+        self.assertTrue('required' not in kwargs)

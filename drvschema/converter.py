@@ -17,6 +17,7 @@ All rights reserved.
 '''
 from collections import defaultdict
 import json
+import re
 
 
 def getSchemaFromKeys(schemata, keystr):
@@ -47,8 +48,11 @@ def DjangoModelCharFieldKwargs(schemata, keystr):
         'maxlength': 'max_length',
         'help': 'help_text',
         'empty': 'blank',
-        'default': 'default'
+        'default': 'default',
+        'unique': 'unique',
+        'nullable': 'null',
     }
+
     for k, v in fieldmap.items():
         if k in schema:
             kwargs[v] = schema[k]
@@ -67,12 +71,18 @@ def DRFSerializerCharFieldKwargs(schemata, keystr):
     """
     schema = getSchemaFromKeys(schemata, keystr)
     kwargs = {}
-    if 'required' in schema:
-        kwargs['required'] = schema['required']
-    if 'maxlength' in schema:
-        kwargs['max_length'] = schema['maxlength']
-    if 'readonly' in schema:
-        kwargs['read_only'] = schema['readonly']
+
+    # Map of schema keys to CharField kwarg keys
+    fieldmap = {
+        'maxlength': 'max_length',
+        'help': 'help_text',
+        'required': 'required',
+        'readonly': 'read_only',
+    }
+
+    for k, v in fieldmap.items():
+        if k in schema:
+            kwargs[v] = schema[k]
 
     return kwargs
 
@@ -88,5 +98,12 @@ def VuelidateValidations(schemata, keystr):
     for field, schema in schemadict.items():
         if 'required' in schema and schema['required']:
             result[field]['required'] = ''
+        if 'maxlength' in schema:
+            result[field]['maxLength'] = 'maxLength(%d)' % schema['maxlength']
 
-    return json.dumps(result)
+    resultstr = json.dumps(result)
+
+    # Strip the quotes from maxLength because it's a function
+    resultstr = re.sub(r'"(maxLength\(\d+\))"', r'\1', resultstr)
+
+    return resultstr
