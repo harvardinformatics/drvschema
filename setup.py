@@ -28,7 +28,4 @@ setup(
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
     ],
-    install_requires=[
-        'Cerberus==1.2',
-    ],
 )
