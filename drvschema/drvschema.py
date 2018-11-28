@@ -84,6 +84,9 @@ class DrvSchema:
         if len(converters) == 0:
             self.converters = {
                 'DjangoModelCharFieldKwargs': converter.DjangoModelCharFieldKwargs,
+                'DjangoModelBooleanFieldKwargs': converter.DjangoModelBooleanFieldKwargs,
+                'DjangoModelDateTimeFieldKwargs': converter.DjangoModelDateTimeFieldKwargs,
+                'DjangoModelForeignKeyFieldKwargs': converter.DjangoModelForeignKeyFieldKwargs,
                 'DRFSerializerCharFieldKwargs': converter.DRFSerializerCharFieldKwargs,
                 'VuelidateValidations': converter.VuelidateValidations,
             }

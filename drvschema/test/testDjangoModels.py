@@ -64,9 +64,46 @@ class TestDjangoModels(unittest.TestCase):
         kwargs = appschema.to('DjangoModelCharFieldKwargs', 'User.first_name')
         self.assertTrue(kwargs['max_length'] == 200)
         self.assertTrue(kwargs['help_text'] == 'User first name')
-        self.assertFalse(kwargs['blank'])
         self.assertTrue(kwargs['default'] is None)
+        self.assertFalse(kwargs['null'])
         self.assertTrue('required' not in kwargs)
+
+    def testDateTimeFieldKwargs(self):
+        """
+        Ensure that Django model DateTimeField kwargs are correctly created
+        """
+        appschema = drvschema.DrvSchema({
+            'User': {
+                'created': {
+                    'readonly': True,
+                    'maxlength': 200,
+                    'help': 'Date created',
+                },
+            }
+        })
+
+        kwargs = appschema.to('DjangoModelDateTimeFieldKwargs', 'User.created')
+        self.assertTrue('maxlength' not in kwargs)
+        self.assertTrue(kwargs['help_text'] == 'Date created')
+        self.assertFalse(kwargs['editable'])
+        self.assertTrue('readonly' not in kwargs)
+
+    def testBooleanFieldKwargs(self):
+        """
+        Ensure that Django model DateTimeField kwargs are correctly created
+        """
+        appschema = drvschema.DrvSchema({
+            'User': {
+                'is_enabled': {
+                    'default': False,
+                    'help': 'Is the user enabled?',
+                },
+            }
+        })
+
+        kwargs = appschema.to('DjangoModelBooleanFieldKwargs', 'User.is_enabled')
+        self.assertFalse(kwargs['default'])
+        self.assertTrue(kwargs['help_text'] == 'Is the user enabled?')
 
     def testMigration(self):
         """

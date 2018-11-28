@@ -57,9 +57,56 @@ def DjangoModelCharFieldKwargs(schemata, keystr):
             kwargs[v] = schema[k]
 
     if 'required' in schema:
-        kwargs['blank'] = False
-        kwargs['default'] = None
-        kwargs['null'] = False
+        if schema['required']:
+            kwargs['default'] = None
+            kwargs['null'] = False
+        else:
+            kwargs['null'] = True
+
+    return kwargs
+
+
+def DjangoModelForeignKeyFieldKwargs(schemata, keystr):
+    """
+    Convert a schema to Django model ForeignKey arguments
+    """
+    schema = getSchemaFromKeys(schemata, keystr)
+    kwargs = {}
+
+    if 'help' in schema:
+        kwargs['help_text'] = schema['help']
+    if 'required' in schema and not schema['required']:
+        kwargs['null'] = True
+
+    return kwargs
+
+
+def DjangoModelDateTimeFieldKwargs(schemata, keystr):
+    """
+    Convert a schema to Django model DateTime arguments
+    """
+    schema = getSchemaFromKeys(schemata, keystr)
+    kwargs = {}
+
+    if 'help' in schema:
+        kwargs['help_text'] = schema['help']
+    if 'readonly' in schema and schema['readonly']:
+        kwargs['editable'] = False
+
+    return kwargs
+
+
+def DjangoModelBooleanFieldKwargs(schemata, keystr):
+    """
+    Convert a schema to Django model BooleanField arguments
+    """
+    schema = getSchemaFromKeys(schemata, keystr)
+    kwargs = {}
+
+    if 'help' in schema:
+        kwargs['help_text'] = schema['help']
+    if 'default' in schema:
+        kwargs['default'] = schema['default']
 
     return kwargs
 
