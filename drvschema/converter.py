@@ -124,11 +124,14 @@ def DRFSerializerCharFieldKwargs(schemata, keystr):
         'help': 'help_text',
         'required': 'required',
         'readonly': 'read_only',
+        'default': 'default',
     }
 
     for k, v in fieldmap.items():
         if k in schema:
             kwargs[v] = schema[k]
+    if 'read_only' in kwargs and 'required' in kwargs:
+        del kwargs['required']
 
     return kwargs
 

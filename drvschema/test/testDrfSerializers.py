@@ -49,10 +49,10 @@ class TestDrfSerializers(unittest.TestCase):
 
         self.assertTrue(kwargs['required'])
         self.assertTrue(kwargs['max_length'] == 100)
+        self.assertTrue(kwargs['default'] is None)
         self.assertTrue('empty' not in kwargs)
-        self.assertTrue('default' not in kwargs)
         self.assertTrue('read_only' not in kwargs)
 
         kwargs = APPSCHEMA.to('DRFSerializerCharFieldKwargs', 'Test.description')
         self.assertTrue(kwargs['read_only'])
-        self.assertFalse(kwargs['required'])
+        self.assertTrue('required' not in kwargs)
