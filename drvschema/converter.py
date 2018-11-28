@@ -47,7 +47,6 @@ def DjangoModelCharFieldKwargs(schemata, keystr):
     fieldmap = {
         'maxlength': 'max_length',
         'help': 'help_text',
-        'empty': 'blank',
         'default': 'default',
         'unique': 'unique',
         'nullable': 'null',
