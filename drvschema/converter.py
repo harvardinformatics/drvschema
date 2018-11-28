@@ -136,6 +136,48 @@ def DRFSerializerCharFieldKwargs(schemata, keystr):
     return kwargs
 
 
+def DRFSerializerBooleanFieldKwargs(schemata, keystr):
+    """
+    Convert a schema to Django Rest Framework BooleanField arguments
+    """
+    schema = getSchemaFromKeys(schemata, keystr)
+    kwargs = {}
+
+    # Map of schema keys to BooleanField kwarg keys
+    fieldmap = {
+        'required': 'required',
+        'default': 'default',
+        'readonly': 'read_only',
+    }
+
+    for k, v in fieldmap.items():
+        if k in schema:
+            kwargs[v] = schema[k]
+    if 'read_only' in kwargs and 'required' in kwargs:
+        del kwargs['required']
+
+    return kwargs
+
+
+def DRFSerializerDateTimeFieldKwargs(schemata, keystr):
+    """
+    Convert a schema to Django Rest Framework DateTimeField arguments
+    """
+    schema = getSchemaFromKeys(schemata, keystr)
+    kwargs = {}
+
+    # Map of schema keys to BooleanField kwarg keys
+    fieldmap = {
+        'readonly': 'read_only',
+    }
+
+    for k, v in fieldmap.items():
+        if k in schema:
+            kwargs[v] = schema[k]
+
+    return kwargs
+
+
 def VuelidateValidations(schemata, keystr):
     """
     Convert a schema into Vuelidate validations JSON.
