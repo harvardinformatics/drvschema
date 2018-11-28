@@ -88,6 +88,8 @@ class DrvSchema:
                 'DjangoModelDateTimeFieldKwargs': converter.DjangoModelDateTimeFieldKwargs,
                 'DjangoModelForeignKeyFieldKwargs': converter.DjangoModelForeignKeyFieldKwargs,
                 'DRFSerializerCharFieldKwargs': converter.DRFSerializerCharFieldKwargs,
+                'DRFSerializerBooleanFieldKwargs': converter.DRFSerializerBooleanFieldKwargs,
+                'DRFSerializerDateTimeFieldKwargs': converter.DRFSerializerDateTimeFieldKwargs,
                 'VuelidateValidations': converter.VuelidateValidations,
             }
 
